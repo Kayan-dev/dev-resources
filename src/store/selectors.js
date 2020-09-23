@@ -20,3 +20,17 @@ export const selectDeveloperStatistics = (state) => {
     ),
   };
 };
+
+export const selectDevelopersWithFavorite = (favoriteId) => (state) => {
+  return state.developers.filter((dev) => dev.favorites.includes(favoriteId));
+};
+
+export const selectDevelopersFavoritesResources = (developerId) => (state) => {
+  const developer = state.developers.find((dev) => dev.id === developerId);
+  if (!developer) {
+    return [];
+  }
+  return state.resources.filter((resource) => {
+    return developer.favorites.includes(resource.id);
+  });
+};
