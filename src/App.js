@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { selectDevelopersWithFavorite } from "./store/selectors";
+import {
+  selectDevelopersWithFavorite,
+  selectLoggedinUser,
+  selectDevelopers,
+  selectListofResources,
+} from "./store/selectors";
 import { selectDevelopersFavoritesResources } from "./store/selectors";
 import "./App.css";
 import { useSelector } from "react-redux";
+import ResourcesSection from "./components/ResourceSection/ResourcesSection";
+import AddResourceForm from "./components/AddResourceForm";
 
 const selectStatistics = (state) => {
   return {
@@ -10,17 +17,12 @@ const selectStatistics = (state) => {
     numResources: state.resources.length,
   };
 };
-const selectResources = (state) => {
-  return state.resources;
-};
-const selectDevelopers = (state) => {
-  return state.developers;
-};
 
 function App() {
   //Selectors
+  const loggedinUser = useSelector(selectLoggedinUser);
   const statistics = useSelector(selectStatistics);
-  const resources = useSelector(selectResources);
+  const resources = useSelector(selectListofResources);
   const developers = useSelector(selectDevelopers);
   //Local states
   const [developerId, setDeveloperId] = useState(2);
@@ -34,8 +36,19 @@ function App() {
     selectDevelopersFavoritesResources(developerId)
   );
 
+  console.log("user", loggedinUser);
+
   return (
     <div className="App">
+      <p
+        style={{
+          margin: "1rem 0 2rem 0",
+          padding: "0.5rem",
+          background: "#eee",
+        }}
+      >
+        Welcome back, <strong>{loggedinUser.name}</strong>!
+      </p>
       <h1>Web development resources</h1>
       <div className="statistics">
         <div className="statistic">
@@ -97,6 +110,8 @@ function App() {
           </ul>
         </div>
       </div>
+      <ResourcesSection></ResourcesSection>
+      <AddResourceForm></AddResourceForm>
     </div>
   );
 }

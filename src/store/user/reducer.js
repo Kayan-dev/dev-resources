@@ -1,6 +1,6 @@
 // src/store/user/reducer.js
 const initialState = {
-  id: 1,
+  id: 3,
 };
 
 export default function userSliceReducer(state = initialState, action) {
